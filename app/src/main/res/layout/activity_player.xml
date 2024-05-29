@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".PlayerActivity">
+
+    <TextView
+        android:id="@+id/wordToGuessView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Угадайте слово:" />
+
+    <EditText
+        android:id="@+id/letterEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wordToGuessView"
+        android:layout_marginTop="16dp"
+        android:hint="Введите букву" />
+
+    <Button
+        android:id="@+id/guessLetterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/letterEditText"
+        android:layout_marginTop="16dp"
+        android:text="Угадать букву" />
+
+    <EditText
+        android:id="@+id/wordEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/guessLetterButton"
+        android:layout_marginTop="16dp"
+        android:hint="Введите слово" />
+
+    <Button
+        android:id="@+id/guessWordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/wordEditText"
+        android:layout_marginTop="16dp"
+        android:text="Угадать слово" />
+
+    <TextView
+        android:id="@+id/guessedWordView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:layout_marginTop="16dp"
+        android:text="Угаданные буквы: "
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>
