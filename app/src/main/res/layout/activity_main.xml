@@ -6,13 +6,6 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/wordView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:text="Слово" />
-
-    <TextView
         android:id="@+id/descriptionView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,12 +40,19 @@
         android:layout_marginTop="16dp"/>
 
     <Button
-        android:id="@+id/guessedWordView"
+        android:id="@+id/guessWordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Угадать слово"
         android:layout_below="@+id/guessLetterButton"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
+
+    <TextView
+        android:id="@+id/guessedWordView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
         android:layout_marginTop="16dp"/>
 
 

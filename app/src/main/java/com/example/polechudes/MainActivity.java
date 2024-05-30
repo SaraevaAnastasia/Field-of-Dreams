@@ -18,7 +18,6 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
     private GameManager gameManager;
     private Player player;
-    private TextView wordView;
     private TextView descriptionView;
     private TextView guessedWordView;
     private Button adminButton;
@@ -39,10 +38,8 @@ public class MainActivity extends AppCompatActivity {
         gameManager = GameManager.getInstance();
         player = new Player();
 
-        wordView = findViewById(R.id.wordView);
-        guessedWordView = findViewById(R.id.guessedWordView);
-
         descriptionView = findViewById(R.id.descriptionView);
+        guessedWordView = findViewById(R.id.guessedWordView);
         adminButton = findViewById(R.id.adminButton);
 
         loadWordsFromFile();
@@ -59,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         letterEditText = findViewById(R.id.letterEditText);
         wordEditText = findViewById(R.id.wordEditText);
         guessLetterButton = findViewById(R.id.guessLetterButton);
-        guessWordButton = findViewById(R.id.guessedWordView); // Corrected the reference
+        guessWordButton = findViewById(R.id.guessWordButton); // Correct reference
 
         guessLetterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 String letter = letterEditText.getText().toString().trim();
                 if (!letter.isEmpty() && letter.length() == 1) {
                     player.guessLetter(currentWord.getWord(), letter.charAt(0));
-                    checkGuess();
+                    checkGuessLetter();
                 } else {
                     Toast.makeText(MainActivity.this, "Введите одну букву", Toast.LENGTH_SHORT).show();
                 }
@@ -79,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String guessedWord = wordEditText.getText().toString().trim();
-                if (!guessedWord.isEmpty()) {
+                if (!guessedWord.isEmpty() ) {
                     player.guessWord(guessedWord);
-                    checkGuess();
+                    checkGuessWord();
                 } else {
                     Toast.makeText(MainActivity.this, "Введите слово", Toast.LENGTH_SHORT).show();
                 }
@@ -90,22 +87,49 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkGuess() {
+    private void checkGuessWord() {
+        String currentWordStr = currentWord.getWord();
+        Log.d("LETTER_TAG", currentWordStr);
+
+        if (currentWordStr != null) {
+            String guessedWord = player.getGuessedWord().trim();
+            Log.d("LETTER_TAG", guessedWord);
+
+            // Отладочный вывод
+            Log.d("CHECK_GUESS", "Guessed word: " + guessedWord);
+
+            if (guessedWord.equalsIgnoreCase(currentWordStr)) {
+                Toast.makeText(this, "Слово " + currentWordStr + " угадано!", Toast.LENGTH_SHORT).show();
+                startGame(); // Start a new game when the word is guessed
+            } else {
+                Toast.makeText(this, "Слово не угадано!", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void checkGuessLetter() {
+        String letter = letterEditText.getText().toString();
+        Log.d("LETTER_TAG", letter);
         String currentWordStr = currentWord.getWord();
         Log.d("LETTER_TAG", currentWordStr);
 
         if (currentWordStr != null) {
             String guessedWord = player.getGuessedWord();
-            guessedWordView.setText(guessedWord);
+            Log.d("LETTER_TAG", guessedWord);
 
             // Отладочный вывод
             Log.d("CHECK_GUESS", "Guessed word: " + guessedWord);
 
-            if (!guessedWord.contains("_")) {
-                Toast.makeText(this, "Слово угадано!", Toast.LENGTH_SHORT).show();
-                startGame(); // Start a new game when the word is guessed
+            if (currentWordStr.toLowerCase().contains(letter)) {
+                guessedWordView.setText(guessedWord); // Corrected
+                if (guessedWord.equalsIgnoreCase(currentWordStr)) {
+                    Toast.makeText(this, "Слово " + currentWordStr + " угадано!", Toast.LENGTH_SHORT).show();
+                    startGame(); // Start a new game when the word is guessed
+                } else {
+                    Toast.makeText(this, "Буква " + letter + " угадана!", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, "Буква угадана!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Буква не угадана!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -114,10 +138,9 @@ public class MainActivity extends AppCompatActivity {
         Word word = gameManager.getRandomWord();
         if (word != null) {
             currentWord = word;
-            wordView.setText(word.getWord());
             descriptionView.setText(word.getDescription());
             player.clearGuessedLetters(); // Clear guessed letters when starting a new game
-            player.guessWord(new String(new char[word.getWord().length()]).replace("\0", "_")); // Initialize with underscores
+            player.guessWord(new String(new char[word.getWord().length()]).replace("\0", " _ ")); // Initialize with underscores
             guessedWordView.setText(player.getGuessedWord());
         } else {
             Toast.makeText(this, "Слова закончились", Toast.LENGTH_SHORT).show();

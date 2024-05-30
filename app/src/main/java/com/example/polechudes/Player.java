@@ -1,5 +1,7 @@
 package com.example.polechudes;
 
+import android.util.Log;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,7 +36,7 @@ public class Player {
             if (guessedLetters.contains(Character.toLowerCase(c))) {
                 guessedWordBuilder.append(c);
             } else {
-                guessedWordBuilder.append("ㅤ_ㅤ");
+                guessedWordBuilder.append(" _ ");
             }
         }
         guessedWord = guessedWordBuilder.toString();
